@@ -40,6 +40,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mfdext.h"
 
 #include "fr3d.h"
+#include "fovchange.h"
+
+short max_fov = 135;
+short min_fov = 70;
 
 extern uchar mfd_button_callback_kb(ushort keycode, uint32_t context, intptr_t data);
 extern uchar hw_hotkey_callback(ushort keycode, uint32_t context, intptr_t data);
@@ -132,6 +136,7 @@ void SetDefaultPrefs(void) {
 	gShockPrefs.goPersistMLook = false;
 	gShockPrefs.doFov = 80;
 	global_fov = gShockPrefs.doFov;
+	saved_fov = gShockPrefs.doFov;
 
     SetShockGlobals();
 }
@@ -255,12 +260,13 @@ int16_t LoadPrefs(void) {
 			gShockPrefs.goPersistMLook = value;
 		} else if (strcasecmp(key, PREF_FOV) == 0) {
 			int fov = atoi(value);
-			if (fov < 70)
-				fov = 70;
-			if (fov > 135)
-				fov = 135;
+			if (fov < min_fov)
+				fov = min_fov;
+			if (fov > max_fov)
+				fov = max_fov;
 			gShockPrefs.doFov = (short)fov;
-			global_fov = gShockPrefs.doFov;
+			saved_fov = gShockPrefs.doFov;
+			global_fov = gShockPrefs.doUseOpenGL ? 80 : gShockPrefs.doFov;
 		}
     }
 
