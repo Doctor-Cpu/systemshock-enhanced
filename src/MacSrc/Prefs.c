@@ -149,7 +149,7 @@ static char *GetPrefsPathFilename(void) {
         fclose(f);
         strcpy(filename, PREFS_FILENAME);
     } else {
-        char *p = SDL_GetPrefPath("Meeper", "SystemShock");
+        char *p = SDL_GetBasePath();
         snprintf(filename, sizeof(filename), "%s%s", p, PREFS_FILENAME);
         SDL_free(p);
     }
@@ -641,7 +641,7 @@ static char *GetKeybindsPathFilename(void) {
         fclose(f);
         strcpy(filename, KEYBINDS_FILENAME);
     } else {
-        char *p = SDL_GetPrefPath("Meeper", "SystemShock");
+		char *p = SDL_GetBasePath();
         snprintf(filename, sizeof(filename), "%s%s", p, KEYBINDS_FILENAME);
         SDL_free(p);
     }
